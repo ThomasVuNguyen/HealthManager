@@ -433,7 +433,7 @@
   async function openPreview(f) {
     const url = `/api/files/${f.id}/download`;
     $previewFilename.textContent = f.filename.toLowerCase();
-    $previewDownload.href = url;
+    $previewDownload.href = url + '?download=1';
     $previewBody.innerHTML = '';
 
     if (isImage(f.content_type)) {

@@ -279,7 +279,7 @@ async function uploadFile(personId: string, request: Request, env: Env): Promise
   return json(fileMeta, 201);
 }
 
-async function downloadFile(fileId: string, env: Env): Promise<Response> {
+async function downloadFile(fileId: string, request: Request, env: Env): Promise<Response> {
   const fileMeta = await env.DB.prepare("SELECT * FROM files WHERE id = ?").bind(fileId).first();
   if (!fileMeta) {
     return errorResponse("File not found", 404);
@@ -290,10 +290,17 @@ async function downloadFile(fileId: string, env: Env): Promise<Response> {
     return errorResponse("File not found in storage", 404);
   }
 
+  // Use ?download=1 for force-download, otherwise inline for preview
+  const url = new URL(request.url);
+  const forceDownload = url.searchParams.get("download") === "1";
+  const disposition = forceDownload
+    ? `attachment; filename="${fileMeta.filename}"`
+    : `inline; filename="${fileMeta.filename}"`;
+
   return new Response(object.body, {
     headers: {
       "Content-Type": fileMeta.content_type as string,
-      "Content-Disposition": `attachment; filename="${fileMeta.filename}"`,
+      "Content-Disposition": disposition,
       ...corsHeaders(),
     },
   });
@@ -370,7 +377,7 @@ export default {
       if (params) return await uploadFile(params.personId, request, env);
 
       params = matchRoute("GET", "/api/files/:fileId/download", req);
-      if (params) return await downloadFile(params.fileId, env);
+      if (params) return await downloadFile(params.fileId, request, env);
 
       params = matchRoute("DELETE", "/api/files/:fileId", req);
       if (params) return await deleteFile(params.fileId, env);
