@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>healthmanager</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <!-- auth screen -->
+  <div class="auth-screen" id="authScreen">
+    <div class="auth-box">
+      <div class="logo" style="margin-bottom: 12px; font-size: 1.5rem;">✚ healthmanager</div>
+      <p class="auth-sub">keep your medical files in one place.</p>
+
+      <div class="auth-tabs">
+        <button class="chip active" id="loginTab">login</button>
+        <button class="chip" id="registerTab">register</button>
+      </div>
+
+      <form id="authForm" autocomplete="off">
+        <input type="email" id="authEmail" placeholder="email" required />
+        <input type="password" id="authPassword" placeholder="password" required />
+        <div class="auth-error" id="authError"></div>
+        <button type="submit" class="btn-primary auth-submit" id="authSubmit">login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- header -->
+  <header class="header" id="appHeader" style="display: none;">
+    <div class="header-left">
+      <div class="logo">✚ healthmanager</div>
+      <span class="user-email" id="userEmail"></span>
+    </div>
+    <div class="header-right">
+      <button class="btn-secondary" id="logoutBtn">logout</button>
+      <button class="btn-primary" id="addPersonBtn">+ add person</button>
+    </div>
+  </header>
+
+  <!-- main -->
+  <main class="main" id="appMain" style="display: none;">
+    <!-- person chips -->
+    <div class="person-chips" id="personChips"></div>
+
+    <!-- upload zone -->
+    <div class="upload-zone" id="uploadZone">
+      <span class="upload-icon">↑</span>
+      <p>drag files here or click to upload.</p>
+    </div>
+    <input type="file" class="file-input" id="fileInput" multiple />
+
+    <!-- file grid -->
+    <div class="file-grid" id="fileGrid"></div>
+
+    <!-- empty state -->
+    <div class="empty-state" id="emptyState">
+      no files yet. add someone and start uploading.
+    </div>
+  </main>
+
+  <!-- add person modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h2>add a person</h2>
+      <input type="text" id="personNameInput" placeholder="name" autocomplete="off" />
+      <div class="modal-actions">
+        <button class="btn-secondary" id="modalCancel">cancel</button>
+        <button class="btn-primary" id="modalAdd">add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- file preview modal -->
+  <div class="modal-overlay" id="previewOverlay">
+    <div class="preview-modal">
+      <div class="preview-header">
+        <span class="preview-filename" id="previewFilename"></span>
+        <div class="preview-actions">
+          <a class="btn-secondary btn-sm" id="previewDownload" href="#" target="_blank">download</a>
+          <button class="btn-secondary btn-sm" id="previewClose">×</button>
+        </div>
+      </div>
+      <div class="preview-body" id="previewBody"></div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "health-manager",
+  "main": "src/worker.ts",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "health.beenex.company/*", "zone_name": "beenex.company" }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "health-manager-db",
+      "database_id": "cb3a67a0-779c-4fac-97aa-fcaf2797ebcc"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "health-manager-files"
+    }
+  ],
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "single-page-application"
+  }
+}
